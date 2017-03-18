@@ -10,23 +10,32 @@ var json = [];
 
 app.get('/', function (req, res) {
 
-    url = 'http://globoesporte.globo.com/placar-ge/hoje/';
+    url = 'https://esporte.uol.com.br/futebol/central-de-jogos/jogos-do-dia/';
     request(url, function (error, response, html) {
 
         if (!error) {
             var $ = cheerio.load(html);
-            $('[class=secao-campeonato]').each(function ( index , element) {
+            $('[class=vevent]').each(function ( index , element) {
                 var data = $(this);
                 //console.log(data )
-               var liga =  $(this).find('article > header > h1.titulo > span').text()  ;
-               var time1 =  $(this).find('.time.mandante').text()  ;
-               var time2 =  $(this).find('.time.visitante').text()  ;
+               var dia =  $(this).find('.data').text()   ;
+               var league =  $(this).find('.league').text()   ;
+               //var  time1 =  $(this).find('abbr').attr('title')  ;
+               var  time1 =  $(this).find('.time1 > abbr').attr('title')   ;
+               var  time2 =  $(this).find('.time2 > abbr').attr('title')   ;
+               var  img1 =  $(this).find('.time1 > img').attr('src')   ;
+               var  img2 =  $(this).find('.time2 > img').attr('src')   ;
+               //var time1 =  $(this).find('.time.mandante').text()  ;
+               //var time2 =  $(this).find('.time.visitante').text()  ;
 
-               //console.log(liga)
+              // console.log(img1)
 
                 var dados = {
-                    liga:liga,
-                    time1:time1,
+                    dia:dia,
+                    league:league,
+                    time1: time1 ,
+                    img1: img1 ,
+                    img2: img2 ,
                     time2:time2
                 }
 
