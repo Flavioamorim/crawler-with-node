@@ -6,11 +6,13 @@ var app = express();
 var _und = require("underscore");
 
 var json = [];
+var jsonGalo = [];
 
 
 app.get('/', function (req, res) {
 
     url = 'https://esporte.uol.com.br/futebol/central-de-jogos/jogos-do-dia/';
+    urlGalo = 'https://esporte.uol.com.br/futebol/times/atletico-mg/proximos-jogos/';
     request(url, function (error, response, html) {
 
         if (!error) {
@@ -25,17 +27,23 @@ app.get('/', function (req, res) {
                var  time2 =  $(this).find('.time2 > abbr').attr('title')   ;
                var  img1 =  $(this).find('.time1 > img').attr('src')   ;
                var  img2 =  $(this).find('.time2 > img').attr('src')   ;
+               var  gol1 =  $(this).find('.time1 > .gols').text() ;
+               var  gol2 =  $(this).find('.time2 > .gols').text() ;
+               //var  gol2 =  $(this).find('.time2 > .gols').text ;
                //var time1 =  $(this).find('.time.mandante').text()  ;
                //var time2 =  $(this).find('.time.visitante').text()  ;
 
-              // console.log(img1)
+              //console.log(gol1)
+ 
 
                 var dados = {
                     dia:dia,
                     league:league,
                     time1: time1 ,
+                    gol1: gol1 ,
                     img1: img1 ,
                     img2: img2 ,
+                    gol2: gol2 ,
                     time2:time2
                 }
 
@@ -50,8 +58,8 @@ app.get('/', function (req, res) {
                 }
             });
         }
-
     });
+
 });
 
 app.listen('8081');
